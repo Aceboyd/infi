@@ -17,14 +17,14 @@ export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <>
-    <main className="grid min-h-screen bg-[#f3eee6] text-[#213028] lg:grid-cols-[0.9fr_1.1fr]">
-      <section className="relative flex min-h-[300px] overflow-hidden bg-cover bg-center p-8 text-[#f5f0e8] sm:p-10 lg:min-h-screen lg:flex-col lg:justify-between" style={{ backgroundImage: "linear-gradient(rgba(21,33,28,.48), rgba(21,33,28,.84)), url(https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1200&q=85)" }}>
-        <Logo light />
+    <main className="grid min-h-screen bg-[#f3eee6] text-[#213028] md:grid-cols-[0.9fr_1.1fr]">
+      <section className="relative hidden min-h-[260px] overflow-hidden bg-cover bg-center p-6 text-[#f5f0e8] sm:min-h-[300px] sm:p-10 md:flex md:min-h-screen md:flex-col md:justify-between" style={{ backgroundImage: "linear-gradient(rgba(21,33,28,.48), rgba(21,33,28,.84)), url(https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1200&q=85)" }}>
+        <div className="hidden md:block"><Logo light /></div>
         <div className="max-w-md">
           <p className="text-[10px] uppercase tracking-[0.28em] text-[#d88761]">
             Welcome back
           </p>
-          <h1 className="mt-5 font-serif text-6xl leading-tight">
+          <h1 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl md:text-6xl">
             Your bigger picture is waiting.
           </h1>
           <p className="mt-6 text-sm leading-7 text-[#afbbb0]">
@@ -38,7 +38,7 @@ export default function SignInPage() {
       </section>
       <section className="flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
-          <div className="mb-12 flex items-center justify-between lg:hidden">
+          <div className="mb-12 flex items-center justify-between md:hidden">
             <Logo />
             <Link href="/" aria-label="Back home" className="text-[#77837b]">
               <ArrowLeft size={18} />

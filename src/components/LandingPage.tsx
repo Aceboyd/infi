@@ -96,11 +96,12 @@ export default function LandingPage() {
     <main className="min-h-screen overflow-hidden bg-[#f3eee6] text-[#213028]">
       <IntroLoader />
       <SiteHeader />
-      <section className="relative bg-[#15211c] text-[#f5f0e8]">
+      <section className="relative min-h-[570px] overflow-hidden text-[#f5f0e8] lg:min-h-[650px]">
         <div className="absolute right-[-11rem] top-[-12rem] h-[36rem] w-[36rem] rounded-full border border-[#adc9a1]/20" />
         <div className="absolute right-[-4rem] top-[-5rem] h-[22rem] w-[22rem] rounded-full border border-[#c9754d]/20" />
-        <div className="relative mx-auto flex min-h-[570px] max-w-7xl items-center justify-center px-6 pb-24 pt-32 lg:min-h-[650px] lg:px-10 lg:pb-32 lg:pt-40">
-          <div className="relative z-10 mx-auto max-w-3xl text-center text-white">
+        <div className="absolute inset-0 z-0"><HeroCarousel /></div>
+        <div id="home" className="relative z-10 mx-auto flex min-h-[570px] max-w-7xl items-center justify-center px-6 pb-24 pt-32 lg:min-h-[650px] lg:px-10 lg:pb-32 lg:pt-40">
+          <div className="relative z-10 mx-auto max-w-3xl text-center text-white [text-shadow:0_3px_18px_rgba(0,0,0,.7)]">
             <p className="mb-6 text-[10px] uppercase tracking-[0.3em] text-[#d88761]">
               A more considered way to grow
             </p>
@@ -128,7 +129,6 @@ export default function LandingPage() {
               </Link>
             </div>
           </div>
-          <div className="absolute inset-0 z-0"><HeroCarousel /></div>
         </div>
       </section>
       <section

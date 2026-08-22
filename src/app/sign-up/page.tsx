@@ -12,29 +12,21 @@ export default function SignUpPage() {
   return (
     <>
     <main className="min-h-screen bg-[#f3eee6] text-[#213028]">
-      <header className="absolute inset-x-6 top-6 z-20 flex items-center justify-between sm:inset-x-10 lg:hidden">
-        <Logo />
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xs text-[#758179] hover:text-[#c9754d]"
-        >
-          <ArrowLeft size={15} /> Back home
-        </Link>
-      </header>
-      <div className="mx-auto grid min-h-screen w-full lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="relative flex min-h-[360px] flex-col justify-between overflow-hidden bg-cover bg-center p-8 pt-24 text-[#f5f0e8] sm:p-10 sm:pt-28 lg:min-h-screen lg:pt-10" style={{ backgroundImage: "linear-gradient(rgba(21,33,28,.48), rgba(21,33,28,.84)), url(https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1000&q=85)" }}>
-          <Logo light />
+      <header className="hidden" />
+      <div className="mx-auto grid min-h-screen w-full md:grid-cols-[0.9fr_1.1fr]">
+        <div className="relative hidden min-h-[280px] flex-col justify-end overflow-hidden bg-cover bg-center p-6 pt-20 text-[#f5f0e8] sm:min-h-[340px] sm:p-10 sm:pt-28 md:flex md:min-h-screen md:justify-between md:pt-10" style={{ backgroundImage: "linear-gradient(rgba(21,33,28,.48), rgba(21,33,28,.84)), url(https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=1000&q=85)" }}>
+          <div className="hidden md:block"><Logo light /></div>
           <p className="text-[10px] uppercase tracking-[0.28em] text-[#c9754d]">
             Begin with clarity
           </p>
-          <h1 className="mt-5 font-serif text-5xl leading-tight tracking-[-0.03em] sm:text-6xl">
+          <h1 className="mt-4 font-serif text-4xl leading-tight tracking-[-0.03em] sm:mt-5 sm:text-5xl md:text-6xl">
             A better relationship with your money.
           </h1>
           <p className="mt-6 max-w-md text-sm leading-7 text-[#d7ded5]">
             Create your INFINI account and bring your goals, investments, and
             next decisions into one considered place.
           </p>
-          <div className="mt-10 space-y-4 text-sm text-[#f0e7dc]">
+          <div className="mt-6 hidden space-y-4 text-sm text-[#f0e7dc] md:mt-10 md:block">
             <p className="flex items-center gap-3">
               <Check className="text-[#c9754d]" size={17} /> Personal portfolio
               perspective
@@ -49,8 +41,9 @@ export default function SignUpPage() {
             </p>
           </div>
         </div>
-        <div className="flex items-center justify-center bg-[#faf7f2] p-6 py-24 sm:p-10 lg:py-16">
+        <div className="flex items-center justify-center bg-[#faf7f2] p-5 py-12 sm:p-10 md:py-16">
           <div className="w-full max-w-md">
+          <div className="mb-10 flex items-center justify-between md:hidden"><Logo /><Link href="/" className="flex items-center gap-2 text-xs text-[#758179] hover:text-[#c9754d]"><ArrowLeft size={15} /> Back home</Link></div>
           <div className="mb-8">
             <h2 className="font-serif text-3xl">Create your account</h2>
             <p className="mt-2 text-sm text-[#758179]">
