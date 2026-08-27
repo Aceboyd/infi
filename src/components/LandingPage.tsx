@@ -24,6 +24,7 @@ import HeroCarousel from "@/components/HeroCarousel";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import BrandLogoBadge, { RealStockLogosGrid } from "@/components/BrandLogoBadge";
+import ContactForm from "@/components/ContactForm";
 
 const principles = [
   {
@@ -752,27 +753,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section
-        id="contact"
-        className="bg-[#c9754d] px-6 py-20 text-white lg:px-10 lg:py-24"
-      >
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-9 sm:flex-row sm:items-end">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.28em] text-[#f7d8c3]">
-              Your next chapter
-            </p>
-            <h2 className="mt-4 max-w-2xl font-serif text-4xl leading-tight sm:text-5xl">
-              Make room for what comes next.
-            </h2>
-          </div>
-          <Link
-            href="/sign-up"
-            className="inline-flex w-fit items-center border border-white/40 px-6 py-4 text-sm transition hover:bg-white hover:text-[#c9754d]"
-          >
-            Create your account <ArrowRight className="ml-3" size={17} />
-          </Link>
-        </div>
-      </section>
+      <ContactForm />
       <SiteFooter />
 
       <TestimonialPopup />
