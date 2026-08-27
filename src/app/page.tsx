@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import LandingPage from "@/components/LandingPage";
+import ProfilePasswordForm from "@/components/ProfilePasswordForm";
 import {
   ArrowDownLeft,
   ArrowUpRight,
@@ -16,7 +17,6 @@ import {
   MoreHorizontal,
   PieChart,
   Search,
-  Settings,
   ShieldCheck,
   SlidersHorizontal,
   Wallet,
@@ -66,7 +66,7 @@ export function UserDashboard() {
         <div className="mt-10 px-2 text-[10px] font-medium uppercase tracking-[0.24em] text-[#77837b]">Account</div>
         <nav className="mt-4 space-y-1">
           <button className="flex w-full items-center gap-3 rounded-md px-3 py-3 text-sm text-[#a7b1a8] transition hover:bg-white/5 hover:text-white"><ShieldCheck size={17} strokeWidth={1.7} /><span>Verification</span><span className="ml-auto rounded-full bg-[#adc9a1]/15 px-2 py-0.5 text-[9px] text-[#adc9a1]">Verified</span></button>
-          <button className="flex w-full items-center gap-3 rounded-md px-3 py-3 text-sm text-[#a7b1a8] transition hover:bg-white/5 hover:text-white"><Settings size={17} strokeWidth={1.7} /><span>Settings</span></button>
+          <ProfilePasswordForm />
         </nav>
         <div className="mt-auto border-t border-white/10 pt-5"><div className="flex items-center gap-3 px-2"><div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9b66f] font-serif text-sm text-[#253027]">AJ</div><div><p className="text-sm text-[#f5f0e8]">Alex Johnson</p><p className="text-[11px] text-[#77837b]">Personal account</p></div><MoreHorizontal className="ml-auto text-[#77837b]" size={18} /></div></div>
       </aside>

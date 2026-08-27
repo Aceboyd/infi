@@ -9,12 +9,32 @@ import {
   LockKeyhole,
   Mail,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
 
-export default function SignInPage() {
+function SignInContent() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault(); setSubmitting(true); setError("");
+    const response = await fetch("/api/auth/sign-in", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+    const body = await response.json(); setSubmitting(false);
+    if (!response.ok) return setError(body.error ?? "Unable to sign in.");
+    if (body.isAdmin) {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
+    router.refresh();
+  }
   return (
     <>
     <main className="grid min-h-screen bg-[#f3eee6] text-[#213028] md:grid-cols-[0.9fr_1.1fr]">
@@ -52,8 +72,9 @@ export default function SignInPage() {
             <p className="mt-3 text-sm text-[#758179]">
               Sign in to view your financial picture.
             </p>
+            {searchParams.get("registered") === "1" && <p className="mt-3 text-sm text-[#527e50]" role="status">Your account is ready. Sign in to continue.</p>}
           </div>
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={submit}>
             <label className="block">
               <span className="mb-2 block text-xs text-[#526158]">
                 Email address
@@ -65,6 +86,10 @@ export default function SignInPage() {
                 />
                 <input
                   type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
+                  autoComplete="email"
                   placeholder="you@example.com"
                   className="h-12 w-full border border-[#d3cbc0] bg-transparent pl-10 pr-4 text-sm outline-none transition placeholder:text-[#a3aaa3] focus:border-[#c9754d]"
                 />
@@ -73,7 +98,7 @@ export default function SignInPage() {
             <label className="block">
               <div className="mb-2 flex justify-between">
                 <span className="text-xs text-[#526158]">Password</span>
-                <Link href="#" className="text-xs text-[#c9754d]">
+                <Link href="/forgot-password" className="text-xs text-[#c9754d]">
                   Forgot password?
                 </Link>
               </div>
@@ -84,6 +109,10 @@ export default function SignInPage() {
                 />
                 <input
                   type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
+                  autoComplete="current-password"
                   placeholder="Enter your password"
                   className="h-12 w-full border border-[#d3cbc0] bg-transparent pl-10 pr-12 text-sm outline-none transition placeholder:text-[#a3aaa3] focus:border-[#c9754d]"
                 />
@@ -97,11 +126,13 @@ export default function SignInPage() {
                 </button>
               </span>
             </label>
+            {error && <p className="text-sm text-[#a94835]" role="alert">{error}</p>}
             <button
               type="submit"
+              disabled={submitting}
               className="mt-3 flex h-12 w-full items-center justify-center bg-[#c9754d] text-sm text-white transition hover:bg-[#b66543]"
             >
-              Sign in <ArrowRight className="ml-2" size={16} />
+              {submitting ? "Signing in…" : <>Sign in <ArrowRight className="ml-2" size={16} /></>}
             </button>
           </form>
           <p className="mt-8 text-center text-sm text-[#758179]">
@@ -115,5 +146,13 @@ export default function SignInPage() {
     </main>
     <SiteFooter />
     </>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#f3eee6]" />}>
+      <SignInContent />
+    </Suspense>
   );
 }

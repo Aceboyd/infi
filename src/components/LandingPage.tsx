@@ -2,9 +2,18 @@ import Link from "next/link";
 import {
   ArrowRight,
   BarChart3,
+  Bot,
+  Building2,
   ChevronDown,
+  Coins,
+  Cpu,
+  Fuel,
+  Landmark,
+  Leaf,
   ShieldCheck,
   Sparkles,
+  Sprout,
+  TrendingUp,
 } from "lucide-react";
 import IntroLoader from "@/components/IntroLoader";
 import { MarketSnapshot, Reveal } from "@/components/Reveal";
@@ -14,6 +23,7 @@ import TestimonyGallery from "@/components/TestimonyGallery";
 import HeroCarousel from "@/components/HeroCarousel";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import BrandLogoBadge, { RealStockLogosGrid } from "@/components/BrandLogoBadge";
 
 const principles = [
   {
@@ -57,11 +67,11 @@ const services = [
 const faqs = [
   [
     "What does INFINI help me manage?",
-    "INFINI brings your investments, goals, and long-term financial decisions into one clear perspective. Your account is designed to make progress easier to understand and act on.",
+    "INFINI brings your investments across 10 global sectors into one clear perspective. Your account is designed to make progress easier to understand and act on.",
   ],
   [
     "How do I get started?",
-    "Create an account, tell us a little about your goals, and we will guide you through the next steps. The process is designed to be straightforward and personal.",
+    "Create an account, select your preferred sectors (Stocks, Crypto, Tech, AI, Real Estate, THC, Energy, Agriculture, Forex, Rare Metals), and start building.",
   ],
   [
     "How is my information protected?",
@@ -73,21 +83,106 @@ const faqs = [
   ],
 ];
 
-const investmentTypes = [
+const investmentSectors = [
   {
-    title: "Managed portfolios",
-    copy: "Diversified strategies shaped around your goals, horizon, and comfort with risk.",
-    mark: "01",
+    number: "01",
+    name: "Cryptocurrency",
+    tagline: "Digital Assets & Web3 Infrastructure",
+    description: "Institutional exposure to Bitcoin, Ethereum, Layer-1 networks, and high-yield decentralized finance (DeFi) protocols.",
+    metrics: "24/7 Liquidity · Staking Yields",
+    icon: Coins,
+    highlights: ["BTC & ETH Spot Holdings", "DeFi Staking Yields", "Blockchain VC Equity"],
+    logos: ["btc", "eth", "sol", "bnb"],
   },
   {
-    title: "Global opportunities",
-    copy: "A wider view across markets, sectors, and ideas that can strengthen your long-term plan.",
-    mark: "02",
+    number: "02",
+    name: "Stocks & Equities",
+    tagline: "Global Corporate Growth & Dividends",
+    description: "Access to S&P 500 blue-chips, international dividend growth stocks, index funds, and custom equity baskets.",
+    metrics: "Quarterly Dividends · Global Reach",
+    icon: TrendingUp,
+    highlights: ["US & Global Indices", "Dividend Aristocrats", "Automated Rebalancing"],
+    logos: ["google", "amazon", "netflix", "tesla"],
   },
   {
-    title: "Purposeful cash",
-    copy: "Keep liquidity working intelligently while preserving room for the moments that matter.",
-    mark: "03",
+    number: "03",
+    name: "Tech Infrastructure",
+    tagline: "SaaS, Hardware & Semiconductors",
+    description: "Capital placement in world-class cloud infrastructure, semiconductor foundries, enterprise software, and cyber defense.",
+    metrics: "High Velocity · Institutional Scale",
+    icon: Cpu,
+    highlights: ["Semiconductor Leaders", "Cloud Enterprise SaaS", "Cybersecurity Venture"],
+    logos: ["apple", "microsoft", "nvidia", "tsmc"],
+  },
+  {
+    number: "04",
+    name: "Artificial Intelligence",
+    tagline: "GenAI Models & Compute Clusters",
+    description: "Direct investment in frontier AI labs, high-density GPU supercomputing, autonomous robotics, and LLM enterprise software.",
+    metrics: "Exponential Growth Sector",
+    icon: Bot,
+    highlights: ["GPU Compute Clusters", "Foundational AI Models", "Autonomous Systems"],
+    logos: ["nvidia", "microsoft", "google", "ai"],
+  },
+  {
+    number: "05",
+    name: "Medical THC & Oils",
+    tagline: "Pharma Cannabinoids & Extract Tech",
+    description: "Regulated medical cannabis cultivation, EU-GMP certified THC/CBD extraction labs, and international pharmaceutical distribution.",
+    metrics: "Pharma Certified · High Demand",
+    icon: Leaf,
+    highlights: ["Clinical Cannabinoid Labs", "EU-GMP Extraction Units", "Global Pharma Supply"],
+    logos: ["thc", "cbd", "pharma", "hemp"],
+  },
+  {
+    number: "06",
+    name: "Real Estate & REITs",
+    tagline: "Commercial Towers & Luxury REITs",
+    description: "Prime commercial office towers, industrial logistics parks, luxury multi-family developments, and REIT income funds.",
+    metrics: "Quarterly Rental Yield · Asset Backed",
+    icon: Building2,
+    highlights: ["Prime City Core Towers", "Logistics & Fulfillment Hubs", "High Yield REIT Portfolio"],
+    logos: ["reit", "estate", "lux", "tower"],
+  },
+  {
+    number: "07",
+    name: "Drilling & Petroleum",
+    tagline: "Energy Drilling & Refined Products",
+    description: "Onshore and offshore drilling equipment, crude oil extraction projects, refinery infrastructure, and refined fuel distribution.",
+    metrics: "Inflation Hedged · High Demand",
+    icon: Fuel,
+    highlights: ["Drilling Rig Operations", "Crude Oil & Refined Futures", "Petroleum Distillates"],
+    logos: ["brent", "rig", "fuel", "oil"],
+  },
+  {
+    number: "08",
+    name: "Agriculture & Distribution",
+    tagline: "AgTech, Food Logistics & Startups",
+    description: "Smart farming robotics, vertical agriculture, commercial food distribution networks, and venture investing in high-growth ag startups.",
+    metrics: "Essential Commodities · VC Upside",
+    icon: Sprout,
+    highlights: ["Precision Ag Tech", "Commercial Food Supply Chains", "Agri-Startup Seed Funds"],
+    logos: ["agri", "farm", "food", "vc"],
+  },
+  {
+    number: "09",
+    name: "Foreign Exchange (Forex)",
+    tagline: "Global Currencies & FX Hedging",
+    description: "Deep liquidity currency trading in G10 and emerging market pairs, backed by quantitative hedging models and 24/5 execution.",
+    metrics: "$7.5 Trillion Daily Liquidity",
+    icon: Landmark,
+    highlights: ["G10 Major Pairs", "Institutional FX Liquidity", "Automated Hedging Models"],
+    logos: ["eurusd", "forex", "fx", "gbpusd"],
+  },
+  {
+    number: "10",
+    name: "Rare Metals & Bullion",
+    tagline: "Gold, Platinum, Lithium & Rare Earths",
+    description: "Physical allocated gold, silver, and platinum vaulting alongside critical rare earth minerals essential for EV batteries and green tech.",
+    metrics: "Safe Haven · Green Transition",
+    icon: Sparkles,
+    highlights: ["Allocated Gold Vaulting", "Battery Grade Lithium", "Rare Earth Element Mining"],
+    logos: ["gold", "silver", "metals", "lithium"],
   },
 ];
 
@@ -239,33 +334,199 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-      <section className="border-y border-[#d9d2c8] bg-[#eae3d9] px-6 py-24 lg:px-10 lg:py-28">
+
+      {/* Real Advertised Logos Stock & Crypto Cards Section */}
+      <section className="bg-[#f8f4ee] px-6 py-20 lg:px-10 lg:py-24 border-t border-[#d9d2c8]">
         <div className="mx-auto max-w-7xl">
-          <div className="max-w-xl">
+          <div className="text-center max-w-2xl mx-auto">
             <p className="text-[10px] uppercase tracking-[0.28em] text-[#c9754d]">
-              Investment types
+              Recognized Global Assets
             </p>
-            <h2 className="mt-5 font-serif text-4xl leading-tight sm:text-5xl">
-              Different tools. One considered strategy.
+            <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">
+              Invest in your preferred companies & assets.
             </h2>
-            <p className="mt-5 text-sm leading-7 text-[#758179]">
-              Build a portfolio that can meet today&apos;s needs while staying
-              faithful to the future you are creating.
+            <p className="mt-4 text-sm text-[#758179] leading-7">
+              Gain fractional ownership of world-leading stocks and cryptocurrencies with real advertised brand logos and full liquidity.
             </p>
           </div>
-          <div className="mt-14 grid gap-5 md:grid-cols-3">
-            {investmentTypes.map((type) => (
-              <div key={type.title} className="border-t border-[#c9c0b5] pt-5">
-                <span className="font-serif text-2xl text-[#c9754d]">
-                  {type.mark}
-                </span>
-                <h3 className="mt-14 font-serif text-2xl">{type.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-[#758179]">
-                  {type.copy}
+
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {/* STOCKS CARD */}
+            <div className="rounded-2xl border border-[#d9d2c8] bg-white p-8 text-center shadow-lg transition hover:shadow-xl flex flex-col justify-between">
+              <div>
+                <h3 className="font-serif text-3xl font-bold text-[#213028]">Stocks</h3>
+                <p className="mt-4 text-xs leading-6 text-[#758179]">
+                  Invest in partial ownership of your preferred companies without the need to purchase an entire share.
                 </p>
-                <span className="mt-8 block text-xl text-[#c9754d]">↗</span>
+
+                {/* 2x2 Logo Grid like screenshot */}
+                <div className="mt-8 grid grid-cols-2 gap-4 max-w-[240px] mx-auto">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-md border border-gray-100 mx-auto">
+                    <BrandLogoBadge code="google" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#131921] shadow-md mx-auto">
+                    <BrandLogoBadge code="amazon" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-black shadow-md mx-auto">
+                    <BrandLogoBadge code="netflix" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#F4F4F5] shadow-md border border-gray-200 mx-auto">
+                    <BrandLogoBadge code="tesla" size="lg" />
+                  </div>
+                </div>
               </div>
-            ))}
+
+              <Link
+                href="/sign-up"
+                className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#c9754d] px-5 py-3 text-xs font-semibold text-white transition hover:bg-[#b66543]"
+              >
+                Explore Stocks <ArrowRight className="ml-2" size={15} />
+              </Link>
+            </div>
+
+            {/* CRYPTOCURRENCIES CARD */}
+            <div className="rounded-2xl border border-[#d9d2c8] bg-white p-8 text-center shadow-lg transition hover:shadow-xl flex flex-col justify-between">
+              <div>
+                <h3 className="font-serif text-3xl font-bold text-[#213028]">Cryptocurrencies</h3>
+                <p className="mt-4 text-xs leading-6 text-[#758179]">
+                  Access top digital assets with institutional security, staking yield, and 24/7 liquidity anytime, anywhere.
+                </p>
+
+                {/* 2x2 Crypto Logo Grid */}
+                <div className="mt-8 grid grid-cols-2 gap-4 max-w-[240px] mx-auto">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#F7931A]/10 shadow-md border border-[#F7931A]/20 mx-auto">
+                    <BrandLogoBadge code="btc" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#627EEA]/10 shadow-md border border-[#627EEA]/20 mx-auto">
+                    <BrandLogoBadge code="eth" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#9945FF]/10 shadow-md border border-[#9945FF]/20 mx-auto">
+                    <BrandLogoBadge code="sol" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#F3BA2F]/10 shadow-md border border-[#F3BA2F]/20 mx-auto">
+                    <BrandLogoBadge code="bnb" size="lg" />
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/sign-up"
+                className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#c9754d] px-5 py-3 text-xs font-semibold text-white transition hover:bg-[#b66543]"
+              >
+                Trade Crypto <ArrowRight className="ml-2" size={15} />
+              </Link>
+            </div>
+
+            {/* TECH & AI LEADERS CARD */}
+            <div className="rounded-2xl border border-[#d9d2c8] bg-white p-8 text-center shadow-lg transition hover:shadow-xl flex flex-col justify-between">
+              <div>
+                <h3 className="font-serif text-3xl font-bold text-[#213028]">Tech & AI Giants</h3>
+                <p className="mt-4 text-xs leading-6 text-[#758179]">
+                  Direct exposure to artificial intelligence, hardware foundries, and next-generation cloud compute.
+                </p>
+
+                {/* 2x2 Tech Logo Grid */}
+                <div className="mt-8 grid grid-cols-2 gap-4 max-w-[240px] mx-auto">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#1C1C1E] shadow-md mx-auto">
+                    <BrandLogoBadge code="apple" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#111] shadow-md mx-auto">
+                    <BrandLogoBadge code="microsoft" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#76B900]/10 shadow-md border border-[#76B900]/30 mx-auto">
+                    <BrandLogoBadge code="nvidia" size="lg" />
+                  </div>
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#9945FF] to-[#14F195] shadow-md mx-auto">
+                    <BrandLogoBadge code="sol" size="lg" />
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/sign-up"
+                className="mt-8 inline-flex items-center justify-center rounded-lg bg-[#c9754d] px-5 py-3 text-xs font-semibold text-white transition hover:bg-[#b66543]"
+              >
+                Invest in Tech & AI <ArrowRight className="ml-2" size={15} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sectors" className="border-y border-[#d9d2c8] bg-[#eae3d9] px-6 py-24 lg:px-10 lg:py-28">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <p className="text-[10px] uppercase tracking-[0.28em] text-[#c9754d]">
+                10 Core Investment Sectors
+              </p>
+              <h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">
+                Diversified global assets across high-growth industries.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-[#758179]">
+                Build your wealth across 10 specialized asset classes, carefully managed for risk and long-term yield.
+              </p>
+            </div>
+            <Link
+              href="/sign-up"
+              className="inline-flex items-center justify-center bg-[#c9754d] px-6 py-3.5 text-xs uppercase tracking-widest text-white transition hover:bg-[#b66543]"
+            >
+              Start Investing Now <ArrowRight className="ml-2" size={15} />
+            </Link>
+          </div>
+
+          <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {investmentSectors.map((sector) => {
+              const Icon = sector.icon;
+              return (
+                <div
+                  key={sector.name}
+                  className="group flex flex-col justify-between border border-[#c9c0b5] bg-[#faf7f2] p-7 transition duration-300 hover:border-[#c9754d] hover:shadow-lg"
+                >
+                  <div>
+                    <div className="flex items-center justify-between border-b border-[#e5ded4] pb-4">
+                      <span className="font-serif text-xl font-medium text-[#c9754d]">
+                        {sector.number}
+                      </span>
+                      <div className="rounded-full bg-[#eae3d9] p-2.5 text-[#213028] transition group-hover:bg-[#c9754d] group-hover:text-white">
+                        <Icon size={20} />
+                      </div>
+                    </div>
+                    <h3 className="mt-5 font-serif text-2xl text-[#213028]">{sector.name}</h3>
+                    <p className="mt-1 text-xs uppercase tracking-wider text-[#c9754d] font-semibold">{sector.tagline}</p>
+                    <p className="mt-3 text-xs leading-6 text-[#758179]">{sector.description}</p>
+
+                    {/* 2x2 Advertised Brand Logos Grid inside Sector Card */}
+                    <div className="mt-4 grid grid-cols-4 gap-2 bg-[#eae3d9]/70 p-2.5 rounded-xl border border-[#c9c0b5]">
+                      {sector.logos.map((logoCode) => (
+                        <div key={logoCode} className="flex items-center justify-center p-1 bg-white rounded-lg shadow-sm">
+                          <BrandLogoBadge code={logoCode} size="sm" />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-4 space-y-2 border-t border-[#e5ded4] pt-4">
+                      {sector.highlights.map((item, idx) => (
+                        <div key={item} className="flex items-center gap-2.5 text-xs text-[#213028]">
+                          <BrandLogoBadge code={sector.logos[idx % sector.logos.length]} size="sm" />
+                          <span className="font-semibold">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex items-center justify-between border-t border-[#e5ded4] pt-4 text-xs">
+                    <span className="font-mono text-[11px] text-[#758179]">{sector.metrics}</span>
+                    <Link
+                      href="/sign-up"
+                      className="font-semibold text-[#c9754d] transition group-hover:translate-x-1"
+                    >
+                      Explore Sector →
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
