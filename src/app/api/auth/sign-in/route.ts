@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { setSessionCookies, supabaseHeaders, supabaseUrl } from "@/lib/auth";
+import { getUserRole } from "@/lib/operations";
 
 export async function POST(request: Request) {
   const { email, password } = await request.json();
@@ -10,11 +11,8 @@ export async function POST(request: Request) {
   const userEmail = String(session.user?.email || "").toLowerCase();
   const isOfficialAdminEmail = userEmail === "info@infinifinancialmanagement.com";
 
-  let isAdmin = isOfficialAdminEmail || session.user?.app_metadata?.role === "admin" || session.user?.user_metadata?.role === "admin";
-
   // If official admin email, sync admin role to Supabase
   if (isOfficialAdminEmail && session.user?.id) {
-    isAdmin = true;
     try {
       const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
       if (key) {
@@ -27,7 +25,7 @@ export async function POST(request: Request) {
         void fetch(`${supabaseUrl()}/auth/v1/admin/users/${session.user.id}`, {
           method: "PUT",
           headers: adminHead,
-          body: JSON.stringify({ app_metadata: { role: "admin" }, user_metadata: { role: "admin" } }),
+          body: JSON.stringify({ app_metadata: { role: "admin" } }),
         });
       }
     } catch {
@@ -35,6 +33,7 @@ export async function POST(request: Request) {
     }
   }
 
+  const isAdmin = session.user ? (await getUserRole(session.user)) === "admin" : false;
   const response = NextResponse.json({ ok: true, isAdmin });
   setSessionCookies(response, session);
   return response;

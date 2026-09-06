@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { adminHeaders, currentUserOrThrow } from "@/lib/operations";
+import { adminHeaders, requireUser } from "@/lib/operations";
 import { supabaseUrl } from "@/lib/auth";
 
 const requestTypes = new Set([
@@ -24,7 +24,7 @@ const requestTypes = new Set([
 
 export async function GET() {
   try {
-    const user = await currentUserOrThrow();
+    const user = await requireUser();
     const headers = adminHeaders();
     const [accountResponse, profileResponse, requestsResponse] = await Promise.all([
       fetch(`${supabaseUrl()}/rest/v1/accounts?user_id=eq.${user.id}&select=*&limit=1`, { headers, cache: "no-store" }),
@@ -110,7 +110,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const user = await currentUserOrThrow();
+    const user = await requireUser();
     const { kind, amount, details } = await request.json();
     if (!requestTypes.has(kind)) return NextResponse.json({ error: "Invalid request type." }, { status: 400 });
     const parsedAmount = amount === "" || amount === undefined || amount === null ? null : Number(amount);
@@ -216,7 +216,7 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const user = await currentUserOrThrow();
+    const user = await requireUser();
     const { currency } = await request.json();
     if (!currency || !["USD", "EUR", "GBP", "JPY"].includes(currency)) {
       return NextResponse.json({ error: "Invalid currency choice." }, { status: 400 });

@@ -178,9 +178,10 @@ export async function PATCH(request: Request, context: ParamsPromise) {
 
     return NextResponse.json({ success: true, message: "User account updated successfully." });
   } catch (error) {
+    const message = error instanceof Error ? error.message : "";
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to update user account." },
-      { status: 500 }
+      { error: message === "FORBIDDEN" ? "Administrator access required." : message === "UNAUTHORIZED" ? "Sign in to continue." : "Failed to update user account." },
+      { status: message === "FORBIDDEN" ? 403 : message === "UNAUTHORIZED" ? 401 : 500 }
     );
   }
 }
