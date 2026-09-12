@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react";
+import { CheckCircle2, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -14,16 +14,37 @@ export default function ContactForm() {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    if (loading || !formData.name || !formData.email || !formData.message) return;
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setError("");
+    try {
+      const submission = new FormData();
+      submission.append("access_key", "4337e269-ce61-482a-9a82-b5b00d0ca23c");
+      submission.append("subject", "New INFINI contact inquiry");
+      submission.append("from_name", "INFINI Contact Form");
+      for (const [field, value] of Object.entries(formData)) {
+        submission.append(field, value);
+      }
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: submission,
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Unable to send your message. Please try again.");
+      }
       setSubmitted(true);
-    }, 1000);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Unable to send your message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,8 +65,8 @@ export default function ContactForm() {
               Start a conversation with our advisors.
             </h2>
 
-            <p className="mt-5 text-sm leading-7 text-[#9eaaa0] max-w-md">
-              Whether you are exploring portfolio diversification across our 10 core sectors or seeking custom wealth management, our team is here to guide your journey.
+            <p className="mt-5 text-sm leading-7 text-[#bdc9c0] max-w-md">
+              Whether you are exploring portfolio diversification across our six core sectors or seeking custom wealth management, our team is here to guide your journey.
             </p>
 
             <div className="mt-10 space-y-6">
@@ -82,15 +103,15 @@ export default function ContactForm() {
           </div>
 
           {/* Right Column: Contact Form Box */}
-          <div className="rounded-2xl border border-white/10 bg-[#1d2b24]/90 p-8 shadow-2xl backdrop-blur-md sm:p-10">
+          <div className="rounded-2xl border border-[#53675b] bg-[#1d2b24] p-8 shadow-2xl sm:p-10">
             {submitted ? (
               <div className="py-12 text-center space-y-5">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#adc9a1]/20 text-[#adc9a1] border border-[#adc9a1]/30">
                   <CheckCircle2 size={36} />
                 </div>
-                <h3 className="font-serif text-3xl text-white">Message Delivered</h3>
-                <p className="mx-auto max-w-sm text-sm text-[#9eaaa0] leading-relaxed">
-                  Thank you, <strong className="text-white">{formData.name}</strong>. An INFINI senior financial advisor has received your request and will reach out to <span className="text-[#adc9a1] font-mono">{formData.email}</span> within 24 hours.
+                <h3 className="font-serif text-3xl text-white">Message Sent</h3>
+                <p className="mx-auto max-w-sm text-sm text-[#bdc9c0] leading-relaxed">
+                  Thank you, <strong className="text-white">{formData.name}</strong>. Your inquiry has been sent to our team. We will reply to <span className="text-[#adc9a1] font-mono">{formData.email}</span>.
                 </p>
                 <button
                   onClick={() => {
@@ -106,81 +127,78 @@ export default function ContactForm() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <h3 className="font-serif text-2xl text-white">Send Us a Message</h3>
-                  <p className="mt-1 text-xs text-[#9eaaa0]">Fill in your details below to request a portfolio consultation.</p>
+                  <p className="mt-1 text-xs text-[#bdc9c0]">Fill in your details below to request a portfolio consultation.</p>
                 </div>
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="block text-xs font-medium text-[#c4ceb7]">Your Full Name *</label>
+                    <label className="block text-xs font-medium text-[#e1e8dc]">Your Full Name *</label>
                     <input
                       type="text"
                       required
                       placeholder="Alex Johnson"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#5d6a62] outline-none focus:border-[#c9754d] transition"
+                      className="mt-1.5 w-full rounded-lg border border-[#63766a] bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#a3b0a7] outline-none focus:border-[#d88761] focus:ring-2 focus:ring-[#d88761]/40 transition"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#c4ceb7]">Email Address *</label>
+                    <label className="block text-xs font-medium text-[#e1e8dc]">Email Address *</label>
                     <input
                       type="email"
                       required
                       placeholder="alex@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#5d6a62] outline-none focus:border-[#c9754d] transition"
+                      className="mt-1.5 w-full rounded-lg border border-[#63766a] bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#a3b0a7] outline-none focus:border-[#d88761] focus:ring-2 focus:ring-[#d88761]/40 transition"
                     />
                   </div>
                 </div>
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="block text-xs font-medium text-[#c4ceb7]">Phone / WhatsApp</label>
+                    <label className="block text-xs font-medium text-[#e1e8dc]">Phone / WhatsApp</label>
                     <input
                       type="tel"
                       placeholder="+1 (555) 000-0000"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#5d6a62] outline-none focus:border-[#c9754d] transition"
+                      className="mt-1.5 w-full rounded-lg border border-[#63766a] bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#a3b0a7] outline-none focus:border-[#d88761] focus:ring-2 focus:ring-[#d88761]/40 transition"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-[#c4ceb7]">Sector of Interest</label>
+                    <label className="block text-xs font-medium text-[#e1e8dc]">Sector of Interest</label>
                     <select
                       value={formData.sector}
                       onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
-                      className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#101714] px-4 py-3 text-sm text-white outline-none focus:border-[#c9754d] transition"
+                      className="mt-1.5 w-full rounded-lg border border-[#63766a] bg-[#101714] px-4 py-3 text-sm text-white outline-none focus:border-[#d88761] focus:ring-2 focus:ring-[#d88761]/40 transition"
                     >
                       <option value="General Inquiry">General Advisory</option>
                       <option value="Cryptocurrency">Cryptocurrency & Web3</option>
                       <option value="Stocks & Equities">Stocks & Global Equities</option>
                       <option value="Tech Infrastructure">Tech Infrastructure</option>
                       <option value="Artificial Intelligence">Artificial Intelligence</option>
-                      <option value="Medical THC & Oils">Medical THC & Oils</option>
                       <option value="Real Estate & REITs">Real Estate & REITs</option>
-                      <option value="Petroleum & Energy">Petroleum & Energy</option>
-                      <option value="Agriculture">AgriTech & Logistics</option>
                       <option value="Foreign Exchange">Foreign Exchange (Forex)</option>
-                      <option value="Rare Metals">Rare Metals & Gold Vaults</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-[#c4ceb7]">Your Message *</label>
+                  <label className="block text-xs font-medium text-[#e1e8dc]">Your Message *</label>
                   <textarea
                     required
                     rows={4}
                     placeholder="Tell us about your investment objectives or questions..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="mt-1.5 w-full rounded-lg border border-white/15 bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#5d6a62] outline-none focus:border-[#c9754d] transition"
+                    className="mt-1.5 w-full rounded-lg border border-[#63766a] bg-[#101714] px-4 py-3 text-sm text-white placeholder-[#a3b0a7] outline-none focus:border-[#d88761] focus:ring-2 focus:ring-[#d88761]/40 transition"
                   />
                 </div>
 
+                {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
                 <button
                   type="submit"
                   disabled={loading}

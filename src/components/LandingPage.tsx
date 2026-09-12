@@ -7,23 +7,17 @@ import {
   ChevronDown,
   Coins,
   Cpu,
-  Fuel,
   Landmark,
-  Leaf,
   ShieldCheck,
   Sparkles,
-  Sprout,
   TrendingUp,
 } from "lucide-react";
 import IntroLoader from "@/components/IntroLoader";
-import { MarketSnapshot, Reveal } from "@/components/Reveal";
 import ForexCrossRates from "@/components/ForexCrossRates";
-import TestimonialPopup from "@/components/TestimonialPopup";
-import TestimonyGallery from "@/components/TestimonyGallery";
 import HeroCarousel from "@/components/HeroCarousel";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import BrandLogoBadge, { RealStockLogosGrid } from "@/components/BrandLogoBadge";
+import BrandLogoBadge from "@/components/BrandLogoBadge";
 import ContactForm from "@/components/ContactForm";
 
 const principles = [
@@ -68,11 +62,11 @@ const services = [
 const faqs = [
   [
     "What does INFINI help me manage?",
-    "INFINI brings your investments across 10 global sectors into one clear perspective. Your account is designed to make progress easier to understand and act on.",
+    "INFINI brings your investments across six global sectors into one clear perspective. Your account is designed to make progress easier to understand and act on.",
   ],
   [
     "How do I get started?",
-    "Create an account, select your preferred sectors (Stocks, Crypto, Tech, AI, Real Estate, THC, Energy, Agriculture, Forex, Rare Metals), and start building.",
+    "Create an account, select your preferred sectors (Stocks, Crypto, Tech, AI, Real Estate, Forex), and start building.",
   ],
   [
     "How is my information protected?",
@@ -127,16 +121,6 @@ const investmentSectors = [
   },
   {
     number: "05",
-    name: "Medical THC & Oils",
-    tagline: "Pharma Cannabinoids & Extract Tech",
-    description: "Regulated medical cannabis cultivation, EU-GMP certified THC/CBD extraction labs, and international pharmaceutical distribution.",
-    metrics: "Pharma Certified · High Demand",
-    icon: Leaf,
-    highlights: ["Clinical Cannabinoid Labs", "EU-GMP Extraction Units", "Global Pharma Supply"],
-    logos: ["thc", "cbd", "pharma", "hemp"],
-  },
-  {
-    number: "06",
     name: "Real Estate & REITs",
     tagline: "Commercial Towers & Luxury REITs",
     description: "Prime commercial office towers, industrial logistics parks, luxury multi-family developments, and REIT income funds.",
@@ -146,27 +130,7 @@ const investmentSectors = [
     logos: ["reit", "estate", "lux", "tower"],
   },
   {
-    number: "07",
-    name: "Drilling & Petroleum",
-    tagline: "Energy Drilling & Refined Products",
-    description: "Onshore and offshore drilling equipment, crude oil extraction projects, refinery infrastructure, and refined fuel distribution.",
-    metrics: "Inflation Hedged · High Demand",
-    icon: Fuel,
-    highlights: ["Drilling Rig Operations", "Crude Oil & Refined Futures", "Petroleum Distillates"],
-    logos: ["brent", "rig", "fuel", "oil"],
-  },
-  {
-    number: "08",
-    name: "Agriculture & Distribution",
-    tagline: "AgTech, Food Logistics & Startups",
-    description: "Smart farming robotics, vertical agriculture, commercial food distribution networks, and venture investing in high-growth ag startups.",
-    metrics: "Essential Commodities · VC Upside",
-    icon: Sprout,
-    highlights: ["Precision Ag Tech", "Commercial Food Supply Chains", "Agri-Startup Seed Funds"],
-    logos: ["agri", "farm", "food", "vc"],
-  },
-  {
-    number: "09",
+    number: "06",
     name: "Foreign Exchange (Forex)",
     tagline: "Global Currencies & FX Hedging",
     description: "Deep liquidity currency trading in G10 and emerging market pairs, backed by quantitative hedging models and 24/5 execution.",
@@ -174,16 +138,6 @@ const investmentSectors = [
     icon: Landmark,
     highlights: ["G10 Major Pairs", "Institutional FX Liquidity", "Automated Hedging Models"],
     logos: ["eurusd", "forex", "fx", "gbpusd"],
-  },
-  {
-    number: "10",
-    name: "Rare Metals & Bullion",
-    tagline: "Gold, Platinum, Lithium & Rare Earths",
-    description: "Physical allocated gold, silver, and platinum vaulting alongside critical rare earth minerals essential for EV batteries and green tech.",
-    metrics: "Safe Haven · Green Transition",
-    icon: Sparkles,
-    highlights: ["Allocated Gold Vaulting", "Battery Grade Lithium", "Rare Earth Element Mining"],
-    logos: ["gold", "silver", "metals", "lithium"],
   },
 ];
 
@@ -459,13 +413,13 @@ export default function LandingPage() {
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div className="max-w-2xl">
               <p className="text-[10px] uppercase tracking-[0.28em] text-[#c9754d]">
-                10 Core Investment Sectors
+                {investmentSectors.length} Core Investment Sectors
               </p>
               <h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">
                 Diversified global assets across high-growth industries.
               </h2>
               <p className="mt-4 text-sm leading-7 text-[#758179]">
-                Build your wealth across 10 specialized asset classes, carefully managed for risk and long-term yield.
+                Build your wealth across {investmentSectors.length} specialized asset classes, carefully managed for risk and long-term yield.
               </p>
             </div>
             <Link
@@ -563,31 +517,6 @@ export default function LandingPage() {
           <ForexCrossRates />
         </div>
       </section>
-      <section className="border-y border-[#d9d2c8] bg-[#f8f4ee] px-6 py-24 lg:px-10 lg:py-28">
-        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.28em] text-[#c9754d]">
-              A wider lens
-            </p>
-            <h2 className="mt-5 max-w-md font-serif text-4xl leading-tight sm:text-5xl">
-              The market, in context.
-            </h2>
-            <p className="mt-6 max-w-md text-sm leading-7 text-[#758179]">
-              Stay close to the signals that matter without letting the noise
-              take over. INFINI turns movement into perspective.
-            </p>
-            <Link
-              href="/sign-up"
-              className="mt-8 inline-flex items-center text-sm text-[#c9754d]"
-            >
-              Explore your perspective <ArrowRight className="ml-2" size={16} />
-            </Link>
-          </div>
-          <Reveal>
-            <MarketSnapshot />
-          </Reveal>
-        </div>
-      </section>
       <section className="border-y border-[#d9d2c8] bg-[#15211c] px-6 py-24 text-[#f5f0e8] lg:px-10 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
@@ -656,7 +585,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <TestimonyGallery />
       <section className="border-t border-[#d9d2c8] bg-[#eae3d9] px-6 py-24 lg:px-10 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
@@ -755,8 +683,6 @@ export default function LandingPage() {
       </section>
       <ContactForm />
       <SiteFooter />
-
-      <TestimonialPopup />
     </main>
   );
 }

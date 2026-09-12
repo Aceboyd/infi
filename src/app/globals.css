@@ -33,7 +33,7 @@ button {
   }
 }
 
-main > section {
+main > section:not(#contact) {
   transform-origin: center bottom;
   animation: section-settle linear both;
   animation-timeline: view();
