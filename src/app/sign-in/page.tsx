@@ -25,15 +25,23 @@ function SignInContent() {
   const searchParams = useSearchParams();
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault(); setSubmitting(true); setError("");
-    const response = await fetch("/api/auth/sign-in", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
-    const body = await response.json(); setSubmitting(false);
-    if (!response.ok) return setError(body.error ?? "Unable to sign in.");
-    if (body.isAdmin) {
-      router.push("/admin");
-    } else {
-      router.push("/dashboard");
+    try {
+      const response = await fetch("/api/auth/sign-in", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.trim(), password }), signal: AbortSignal.timeout(30_000) });
+      const body = await response.json();
+      if (!response.ok) return setError(typeof body?.error === "string" ? body.error : "Unable to sign in.");
+      if (body.isAdmin) {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
+      router.refresh();
+    } catch (error) {
+      setError(error instanceof Error && error.name === "TimeoutError"
+        ? "Sign-in is taking too long. Please try again."
+        : "Unable to sign in right now. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
     }
-    router.refresh();
   }
   return (
     <>

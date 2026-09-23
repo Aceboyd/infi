@@ -31,10 +31,18 @@ export default function SignUpPage() {
     if (!form.get("terms")) return setError("Please accept the terms to continue.");
     if (form.get("password") !== form.get("confirmPassword")) return setError("Your passwords do not match.");
     setSubmitting(true); setError("");
-    const response = await fetch("/api/auth/sign-up", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: form.get("email"), password: form.get("password"), firstName: form.get("firstName"), lastName: form.get("lastName"), country: form.get("country"), onboarding }) });
-    const body = await response.json(); setSubmitting(false);
-    if (!response.ok) return setError(body.error ?? "Unable to create your account.");
-    router.push("/sign-in?registered=1"); router.refresh();
+    try {
+      const response = await fetch("/api/auth/sign-up", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: String(form.get("email") ?? "").trim(), password: form.get("password"), firstName: form.get("firstName"), lastName: form.get("lastName"), country: form.get("country"), onboarding }), signal: AbortSignal.timeout(30_000) });
+      const body = await response.json();
+      if (!response.ok) return setError(typeof body?.error === "string" ? body.error : "Unable to create your account.");
+      router.push("/sign-in?registered=1"); router.refresh();
+    } catch (error) {
+      setError(error instanceof Error && error.name === "TimeoutError"
+        ? "Account creation is taking too long. Please try signing in before trying again."
+        : "Unable to create your account right now. Please check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (

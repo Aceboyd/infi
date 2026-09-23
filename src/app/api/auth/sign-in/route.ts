@@ -1,13 +1,24 @@
 import { NextResponse } from "next/server";
-import { setSessionCookies, supabaseHeaders, supabaseUrl } from "@/lib/auth";
-import { getUserRole } from "@/lib/operations";
+import { setSessionCookies, supabaseUrl } from "@/lib/auth";
+import { requestSupabaseAuth } from "@/lib/auth-request";
+import { getUserRole, type AuthenticatedUser } from "@/lib/operations";
+
+type SignInSession = {
+  access_token: string;
+  refresh_token: string;
+  expires_in?: number;
+  user: AuthenticatedUser;
+};
 
 export async function POST(request: Request) {
-  const { email, password } = await request.json();
-  if (typeof email !== "string" || typeof password !== "string") return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
-  const upstream = await fetch(`${supabaseUrl()}/auth/v1/token?grant_type=password`, { method: "POST", headers: supabaseHeaders(), body: JSON.stringify({ email, password }) });
-  if (!upstream.ok) return NextResponse.json({ error: "Invalid email or password." }, { status: 401 });
-  const session = await upstream.json();
+  const { email, password } = (await request.json().catch(() => null)) ?? {};
+  if (typeof email !== "string" || !email.trim() || typeof password !== "string" || !password) return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
+  const result = await requestSupabaseAuth<SignInSession>("token?grant_type=password", { email: email.trim(), password });
+  if (result.error) return result.error;
+  const session = result.data;
+  if (typeof session.access_token !== "string" || typeof session.refresh_token !== "string" || !session.user?.id) {
+    return NextResponse.json({ error: "Unable to start your session. Please try again.", code: "invalid_auth_response" }, { status: 502 });
+  }
   const userEmail = String(session.user?.email || "").toLowerCase();
   const isOfficialAdminEmail = userEmail === "info@infinifinancialmanagement.com";
 
@@ -21,12 +32,12 @@ export async function POST(request: Request) {
           method: "PATCH",
           headers: adminHead,
           body: JSON.stringify({ role: "admin" }),
-        });
+        }).catch(() => {});
         void fetch(`${supabaseUrl()}/auth/v1/admin/users/${session.user.id}`, {
           method: "PUT",
           headers: adminHead,
           body: JSON.stringify({ app_metadata: { role: "admin" } }),
-        });
+        }).catch(() => {});
       }
     } catch {
       // ignore async sync errors
